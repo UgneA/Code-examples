@@ -1,0 +1,441 @@
+!!!Ouput in implementation sections is just an example, the simulation will spawn agents at random locations each time, so the examples here will most likely not match the output of the program!!!
+!! The first output about health and memory is of the first agent accessed in array, meaning that information on first line will not be about the same agent all the time!!
+!Programming is done in Python 3!
+There may be an error at :
+print (environment[i][j].dir, end = " ")
+If there is no interpreter configured
+
+
+Stage 1
+Design
+
+Environment
+Environemnt will be a 2d array of size 10 x 10. Empty squares will be denoted as ‘-‘. And an agent in envirinment will be marked as a number between 0 and 3 (inclusive).
+It will hold a list of agents which will have specific x and y cordinates correspoding to a square they are in at the moment. These coordinates will be unkown to the agents themselves.
+
+Agents
+Each agent will have direction property. 0 – north/up, 1- east/right, 2 - south/down, 3 – west/left.
+They will have functions to:
+look at what is happening in squares around it( north east west south)
+move one square in the direction they are facing
+turn by a quarter
+check if there is no other robot in the square ahead
+if a robot tries to move ahead and there is another robot ahead, he does not move that tick.
+
+General
+This stage’s implementation shows no concern to trees so they will not be implemented at this stage.
+There will be 10 robots in total in the environment.
+The duration of this simulation will be 25 ticks. 
+Example of how evironment with agents in it will be represented:
+- - - - - 0 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 3 
+- - - - - - 2 - 3 - 
+- - - - - - - - - - 
+0 - - - 2 0 - 0 - - 
+- - - - - - - - - - 
+- - - 1 - - - - - - 
+3 - - - - - - - - -
+
+The program will work in this manner:
+A ‘map’ of environment will be drawn and then actions will be carried out by the agents. The carried out actions will be printed as a ‘map’ representing the next tick. Meaning that first printed map represents tick 0, second one represents tick 1 and so on, but actions to be printed for the next tick are carried out on the previous tick as if the agent makes a decision on tick 0 but carries it out on tick 1.
+
+Random movement agent design
+At the beginning of each tick agent chooses from one of 3 actions to perform (do nothing, rotate left or right or move ahead). If there is another robot ahead then the agent does nothing.
+
+Rule based movemnt agent design
+The rule that they will follow will aim to make agents walk in circles clockwise. 
+Agent will attempt to move ahead 2 times, then turn right and repeat this pattern for the duration of simulation. If an agent attempting to walk ahead encounters another agent in that square it rotates right and then attempts to walk to that direction.
+
+Implementation
+In a file stage1.py
+To see behaviour of different agent types (random and rule based) uncomment the block with agent code and run the program.
+Example output of first 4 ticks of simulation using random roaming:
+0
+- - - 0 - 1 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+2 - - - - - - - - - 
+- - - - - - - - - - 
+- - 0 - - - - - 1 - 
+- - - 3 - - - 2 - - 
+- - - - - - - - - - 
+- - - - - - - 0 2 - 
+- - - - - - - - - - 
+
+1
+- - - 0 - 0 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 1 
+- - - - - - - - - - 
+2 - 0 - - - - - - - 
+- - - - - - - - 1 - 
+- - - 3 - - - 1 - - 
+- - - - - - - - - - 
+- - - - - - - 0 2 - 
+- - - - - - - - - - 
+
+2
+- - - 1 - 0 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 1 
+- - - - - - - - - - 
+1 - 3 - - - - - - - 
+- - - - - - - - - 1 
+- - - 0 - - - 0 - - 
+- - - - - - - - - - 
+- - - - - - - 3 3 - 
+- - - - - - - - - - 
+
+3
+- - - 2 - 1 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+- - - - - - - - - - 
+0 - 2 - - - - - - - 
+- - - - - - - - - 2 
+- - - 1 - - - 1 - - 
+- - - - - - - - - - 
+- - - - - - - 2 3 - 
+- - - - - - - - - - 
+
+4
+- - - - - 1 - - - - 
+- - - 2 - - - - - - 
+- - - - - - - - - 3 
+0 - - - - - - - - - 
+- - 3 - - - - - - - 
+- - - - - - - - - - 
+- - - 1 - - - - 1 2 
+- - - - - - - - - - 
+- - - - - - - 1 2 - 
+- - - - - - - - - -
+Example output of first 4 ticks of simulation using rule based roaming:
+0
+2 - - - - 2 - 2 - - 
+- - 3 - - - - - - - 
+- - - - - - - - - - 
+- - - - - - 1 - - - 
+- - - 1 - - - - - - 
+- - - - - - - - - - 
+- - - - - 3 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - 3 - - 1 2 
+
+1
+- - - - - - - - - - 
+2 3 - - - 2 - 2 - - 
+- - - - - - - - - - 
+- - - - - - - 1 - - 
+- - - - 1 - - - - - 
+- - - - - - - - - - 
+- - - - 3 - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - 3 - - - 2 3 
+
+2
+- - - - - - - - - - 
+3 - - - - - - - - - 
+2 - - - - 2 - 2 - - 
+- - - - - - - - 1 - 
+- - - - - 1 - - - - 
+- - - - - - - - - - 
+- - - 3 - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - 3 - - - - 3 0 
+
+3
+- - - - - - - - - - 
+0 - - - - - - - - - 
+3 - - - - 3 - 3 - - 
+- - - - - - - - 2 - 
+- - - - - 2 - - - - 
+- - - - - - - - - - 
+- - - 0 - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+- - - 0 - - - 3 - - 
+
+4
+0 - - - - - - - - - 
+- - - - - - - - - - 
+0 - - - 3 - 3 - - - 
+- - - - - - - - - - 
+- - - - - - - - 2 - 
+- - - 0 - 2 - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+- - - 0 - - - - - - 
+- - - - - - 3 - - -
+
+
+Stage 2
+
+Design
+
+This stage will be built on on the stage 1 implementation. As it is a more complex simulation only 5 agents will be present in the simulation at maximum. As otherwise it may be hard to keep track of output.
+
+Agent
+Robots will get a health parameter.
+Parameter to keep track of fruit effects.
+Ability to recognise tree in the square it is in.
+Look at a tree in one of the adjacent squares. (once per tick)
+Ability to eat a fruit.
+
+Environment
+Another 2d array with trees will be introduced to hold values of trees.
+
+General
+The robots will aim to eat a fruit of an uknown tree as soon as they can. They will store effect of every new kind of tree in an array. If the effect of a fruit is positive they will stay in the square. if it is negative or neutral they will look for another tree. At first they will look in all four directions to see if they spot a different tree than the one they already know. If all the trees around are known and are not suitable the robot will roam by going ahead until they bump into something and then turn right. Each time they move ahead they will look around again (for a suitable tree) and just then(if such tree is not found) move to another square. Once they find a tree with a positive effect there is no reason for them to look for anything else as their main objective is to survive (meaning that it should not matter to them whether health increases by just 1 or by 100, it only matters that the increase is not negative).
+Agents will also check if the square with a desirable tree is not occupied by another robot.
+There is a risk of agents trapping an agent in a square with not positive effect and thus starving it.
+
+Implementation
+In a file stage2.py. 
+
+Zeros and negative numbers may show up in “health level” as health level is printed after the agent eats a fruit and just in the next loop it is checked whether it survived or not.
+Example output of first 2 ticks of simulation:
+tree types:
+0 9 8 0 5 0 4 9 2 5 
+8 6 5 9 10 1 0 2 5 0 
+8 1 2 7 10 9 2 3 5 2 
+10 7 6 6 5 5 0 8 0 4 
+9 8 5 2 7 5 0 10 1 10 
+10 7 0 2 2 1 8 4 3 3 
+8 6 6 3 9 5 7 8 7 7 
+6 8 7 9 3 1 7 5 0 10 
+8 8 9 6 8 4 5 4 10 3 
+4 2 10 2 4 0 3 10 9 10 
+
+tree effects:
+-5 4 3 -5 0 -5 -1 4 -3 0 
+3 1 0 4 5 -4 -5 -3 0 -5 
+3 -4 -3 2 5 4 -3 -2 0 -3 
+5 2 1 1 0 0 -5 3 -5 -1 
+4 3 0 -3 2 0 -5 5 -4 5 
+5 2 -5 -3 -3 -4 3 -1 -2 -2 
+3 1 1 -2 4 0 2 3 2 2 
+1 3 2 4 -2 -4 2 0 -5 5 
+3 3 4 1 3 -1 0 -1 5 -2 
+-1 -3 5 -3 -1 -5 -2 5 4 5 
+
+0
+- - - 2 - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- 0 - - - - - - 2 - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 3 - - - - - - - 
+Life levels:
+10
+10
+10
+10
+10
+
+1
+- - - 2 - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- 0 - - - - - - 2 - 
+- - - - - - - - - - 
+- - - - - - - - - 0 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 3 - - - - - - - 
+Life levels:
+4
+11
+4
+7
+14
+
+2
+- - - - - - - - - - 
+- - - 2 - - - - - - 
+- - - - - - - - - - 
+- 0 - - - - - - - - 
+- - - - - - - - 2 0 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 3 - - - - - - - 
+Life levels:
+3
+12
+3
+6
+18
+
+Stage 3
+Design
+
+This stage  will be built on implementation of stage 2
+
+General
+Since this stage is more about the means of mapping than about mechanisms to move around only 2 agents will be left for the simulation.
+The mappings at this stage might not be too vast as robots might only move 1 or 2 times or stay at the same square where they spawned.
+ 
+Agent
+Robot will get a time property to note how many ticks ago something happened. First tick will be 0 as it is the starting moment and nothing happens only the environement and all the agents are initialised.
+Robot has to have some sort of time and space change notation e.g. [4,[0,1,0], 10] could mean that 4 ticks ago a square reached by going ahead, turning east/right and going ahead again revealed a tree with a fruit that increases life by 10. Going back to the start position should require to execute the steps backwards. In the example case it would mean going backwards, turning west/left and going backwards once more. The agent should only note ‘ x ticks ago’ , movement actions preformed to get to a tree, and what effect that tree’s fruit had on the robot.
+(However this may lead to robot noting the same trees at the same location several times with different definitions.)
+So the agents will need an array to keep information about each tree that they encounter. That information will be how many ticks ago something happened, what movement actions they have perforemed and what effect the fruit had on them.
+Agent should be aware that by turning, eating or doing nothing it stays in the same square.
+Action represenation: 
+0 walking ahead
+1 - turning right
+2 - turning left
+Fruit effect:
+(-5) – 5 
+Or blank – no fruit has been eaten
+An example of represenation of what a robot has discovered could be represented like this:
+[
+[1,[], -2]		// fruit has been eaten at the starting square. Its effect was -2
+[2,[0], ]		//robot moved ahead
+[3,[0], 0]		//fruit at the square was eaten and it has effect of 0
+[4,[0, 1], ]		//robot turned right
+[5,[0, 1, 0], ]		//robot moved ahead
+[6, [0, 1, 0], 7]		//fruit at that square had an effect of +7
+]
+It will be tested in implementation, whether it would be more useful to note all effects of agent’s action at the 3rd element of array.
+
+Environment
+Environment should be unchaged as only the robots’ behavour is being altered.
+
+Implementation
+In a file stage3.py
+In the implementation the representation of what was found where was changed. System outputs a 2d ‘memory’ array of an agent. Each outer array consists things that happened in one tick. Each inner array consists of robots movement action (turn, or move ahead) and the effect of a fruit in the square it is standing(if the effect is known).
+In order to know what happened how many ticks ago the robot should need to access the array from the back. To see the action that happened in the most recent tick it should look at the last entry of the array (e.g. someArray[-1]). To see what happened at the very beginning they would look at the first entry of the array, and the ‘how many ticks ago’ value would be the length of array - 1. To know the time of any other entry it should substract from the length of the array -1 the position of the entry the robot is curious about.  For example someArray = [0, 1, 2, 3];  arrayLenght = 4; how many ticks ago ‘2’ happened = arrayLenght-1  - 2   =>
+Event ‘2’ happened 1 tick ago.
+
+Output of first 3 ticks of simulation
+0			//tick number; 0 – means initiation
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 1 2 - - - - - - 
+- - - - - - - - - - 
+- - - - - 3 - - - - 
+- - - - - - - - - - 
+1 - - - - - - - - - 
+- - - - - - - - - 1 
+- - - - - - - - - - 
+- - - - - - - - - - 
+Life levels:
+10
+10
+10
+10
+10
+
+Memory:
+[]
+[]
+[]
+[]
+[]
+
+1
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 1 2 - - - - - - 
+- - - - - - - - - - 
+- - - - - 3 - - - - 
+- - - - - - - - - - 
+1 - - - - - - - - - 
+- - - - - - - - - 1 
+- - - - - - - - - - 
+- - - - - - - - - - 
+Life levels:
+10
+10
+8
+6
+8
+
+Memory:
+[[[], 1]]
+[[[], 1]]
+[[[], -1]]
+[[[], -3]]
+[[[], -1]]
+
+2
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 1 2 - - - - - - 
+- - - - - - - - - - 
+- - - - 3 - - - - - 
+- - - - - - - - - - 
+- 1 - - - - - - - - 
+- - - - - - - - - 2 
+- - - - - - - - - - 
+- - - - - - - - - - 
+Life levels:
+10
+10
+7
+5
+7
+
+Memory:
+[[[], 1], [[], 1]]
+[[[], 1], [[], 1]]
+[[[], -1], [[0]]]
+[[[], -3], [[0]]]
+[[[], -1], [[1], -1]]	//tree effect is printed all the time if it is known
+
+3
+- - - - - - - - - - 
+- - - - - - - - - - 
+- - 1 2 - - - - - - 
+- - - - - - - - - - 
+- - - - 3 - - - - - 
+- - - - - - - - - - 
+- 1 - - - - - - - - 
+- - - - - - - - - - 
+- - - - - - - - - 2 
+- - - - - - - - - - 
+Life levels:
+10
+10
+3
+2
+6
+
+Memory:
+[[[], 1], [[], 1], [[], 1]]
+[[[], 1], [[], 1], [[], 1]]
+[[[], -1], [[0]], [[0], -3]]
+[[[], -3], [[0]], [[0], -2]]
+[[[], -1], [[1], -1], [[1, 0]]]
+
+Stage 4
+
+Agent
+
+The robot at this stage may have a goal to explore. If it has a memory of some part of a map it can walk to the squares where the fruits give the most health point. Then eat those fruit for a few ticks to increase health and then they can start exploring. Once they notice that they are at a certain health level and that to get to the nearest positive increase fruit it and eat it takes a certain amount of ticks, they can go back to the nearest positive effect fruit and restack their health. Using this rule they can explore the whole map. After that they may either roam randomly or according to some rule or even stay at a tree with a positive effect.
+In the exploration phase they should be aware that the nearest know tree may be occupied by another robot and take that into consideration. In that case they should either get back from exploration earlier so they would have enough time to try and check the availability of the second nearest tree  or maybe wait for a few ticks in hope that the other agent will move away from the tree.
+An agent will hold a 2d array which will be expanded as they move. The array will hold effects of fruit. The array is initally of a size[1][1] (an empty 2d array, with inner an outer array sizes as 1) as robot does not know the size of the whole world.
+However it will be assumed that a robot will know that a world is a rectangular finite grid.
+An example of how the array expansion should work:
+[[2]]	-robot will note this as (0,0) as the square he spawns in is the beginning of world for him
+[ [2], [-1] ]	- robot has discovered that a fruit of a tree in a square to the right after the staring square has an effect of -1
+[
+[  ][ 0 ]
+[2][-1]
+] 	-the robot discovered that effect of fruit in a square north from previous one is 0  
+Eventually the robot should get a 10x10 array of the environment with effects of trees in every square
+
+Environment
+Environment remains the same
