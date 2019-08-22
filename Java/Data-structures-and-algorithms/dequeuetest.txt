@@ -1,0 +1,21 @@
+Dequeue contents: <>
+Testing if dequeue is empty: true
+Adding 5, 7 and then 9 to right
+Dequeue contents: <5,7,9>
+Removing right item
+Dequeue contents: <5,7>
+Removing left item
+Dequeue contents: <7>
+Adding 31, 14 and then 2 to left
+Dequeue contents: <2,14,31,7>
+Calling right: 7 returned
+Calling left: 2 returned
+Testing if dequeue is empty: false
+Testing operations on an empty dequeue
+
+assign1.QueueException: Tried to apply left to empty dequeue
+assign1.QueueException: Tried to apply right to empty dequeue
+assign1.QueueException: Tried to apply removeleft to empty dequeue
+assign1.QueueException: Tried to apply removeright to empty dequeue
+
+Process finished with exit code 0
