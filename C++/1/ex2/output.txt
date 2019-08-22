@@ -1,0 +1,25 @@
+affair
+ occurs: 4 time(s)
+
+dead
+ occurs: 33 time(s)
+
+hate
+ occurs: 1 time(s)
+
+heart
+ occurs: 29 time(s)
+
+heaven
+ occurs: 43 time(s)
+
+love
+ occurs: 67 time(s)
+
+music
+ occurs: 8 time(s)
+
+sorrow
+ occurs: 6 time(s)
+
+Total number of words in the script is 33738
