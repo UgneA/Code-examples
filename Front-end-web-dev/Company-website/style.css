@@ -1,0 +1,95 @@
+/*Style body by adding background image, set it to cover, add font-family*/
+body{
+    background: url(https://freenaturestock.s3.amazonaws.com/232.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: "Roboto Slab", serif;
+    color: white;
+}
+
+/*Style brand image*/
+.logo{
+    height: 30px;
+    
+}
+/*Style navigation bar, hover state of links*/
+.navbar{
+    background-color: rgba(0,0,0,0.5);
+}
+.nav li{
+    margin-right: 40px;
+    color: white;
+    font-size: 17px;
+    padding: 10px 0;
+}
+.nav li:hover{
+    border-bottom: 1px solid #00ffa9;
+    padding-bottom: 9px;
+    cursor: pointer;
+}
+
+/*Title inside jumbotron, Style jumbotron, padding text align*/
+.jumbotron{
+    background-color: transparent;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    letter-spacing: 2.5px;
+}
+
+/*limit width of icons section*/
+.container{
+    max-width: 1000px;
+}
+
+/*Style picture+text sections using bootstrap grid system*/
+.iconsImage{
+    height: 80px;
+}
+
+.col-md-4{
+    text-align: center;
+}
+
+.icons p{
+    font-size: 15px;
+}
+
+/*Style contact button*/
+.btn{
+    background-color: rgba(0, 255, 169, 0.5); 
+    border: none; 
+    border-radius: 10px; 
+    font-size: 18px;
+    color: white;
+    padding: 10px 70px;
+    letter-spacing: 1.3px;    
+}
+
+.btn:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+}
+
+.contact{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+/*Style footer*/
+.footer{
+    background-color: rgba(0,0,0,0.5);
+    color: gray;
+    padding: 10px 0;
+    font-size: 15px;
+}
+
+/*-------------media queries-------------*/
+
+/*change the size of icons in small devices*/
+@media (max-width: 768px){
+    .iconsImage{
+        height: 60px;
+    }
+}
